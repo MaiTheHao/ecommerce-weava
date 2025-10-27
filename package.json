@@ -1,0 +1,15 @@
+{
+	"name": "weava-root",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Monorepo for NestJS backend and Vite/React frontend",
+	"scripts": {
+		"dev:be": "pnpm --filter backend start:dev",
+		"dev:fe": "pnpm --filter frontend dev",
+		"build:be": "pnpm --filter backend build",
+		"build:fe": "pnpm --filter frontend build"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+}
