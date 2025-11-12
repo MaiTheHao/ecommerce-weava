@@ -1,0 +1,20 @@
+#!/bin/bash
+# Script này sẽ được Postgres tự động chạy khi khởi tạo
+set -e
+
+# Tạo user và database riêng cho Keycloak
+# Các biến $KEYCLOAK_DB... được đọc từ environment của service 'db'
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE USER $KEYCLOAK_DB_USER WITH PASSWORD '$KEYCLOAK_DB_PASSWORD';
+    CREATE DATABASE $KEYCLOAK_DB_NAME;
+    GRANT ALL PRIVILEGES ON DATABASE $KEYCLOAK_DB_NAME TO $KEYCLOAK_DB_USER;
+EOSQL
+
+# Kết nối đến database Keycloak và cấp quyền trên schema public
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$KEYCLOAK_DB_NAME" <<-EOSQL
+    GRANT ALL ON SCHEMA public TO $KEYCLOAK_DB_USER;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $KEYCLOAK_DB_USER;
+    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $KEYCLOAK_DB_USER;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO $KEYCLOAK_DB_USER;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO $KEYCLOAK_DB_USER;
+EOSQL
