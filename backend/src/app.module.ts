@@ -1,15 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from '@/core/prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './modules/v1/auth/auth.module';
-import { UserModule } from './modules/v1/user/user.module';
-import { RbacModule } from './modules/v1/rbac/rbac.module';
+import { PrismaModule } from '@common/database/prisma/prisma.module';
+import { EnvModule } from '@/shared/env/env.module';
 
 @Module({
-	imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, AuthModule, UserModule, RbacModule],
+	imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, EnvModule],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [Logger, AppService],
 })
 export class AppModule {}

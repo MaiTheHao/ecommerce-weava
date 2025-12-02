@@ -42,6 +42,7 @@ Thumbs.db
 *.launch
 .settings/
 *.sublime-workspace
+generated/
 
 # Test output
 /coverage

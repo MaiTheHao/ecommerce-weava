@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
-		"module": "nodenext",
-		"moduleResolution": "nodenext",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"resolvePackageJsonExports": true,
 		"esModuleInterop": true,
 		"isolatedModules": true,
@@ -23,8 +23,9 @@
 		"noFallthroughCasesInSwitch": false,
 		"paths": {
 			"@/*": ["./src/*"],
-			"@prisma/client": ["./generated/prisma/client.ts"],
-			"@prisma/service": ["./prisma/prisma.service.ts"]
+			"@common/*": ["src/common/*"],
+			"@modules/*": ["./src/modules/*"],
+			"@shared/*": ["./src/shared/*"]
 		}
 	}
 }

@@ -36,40 +36,39 @@ services:
             - weava-network
 
     # --- SERVICE KEYCLOAK MỚI HOÀN TOÀN ---
-    keycloak:
-        image: quay.io/keycloak/keycloak:25.0.1 # (Bạn có thể đổi phiên bản)
-        container_name: weava_keycloak
-        restart: always
-        environment:
-            # Thông tin admin Keycloak (đọc từ .env)
-            KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-            KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    # keycloak:
+    #     image: quay.io/keycloak/keycloak:25.0.1 # (Bạn có thể đổi phiên bản)
+    #     container_name: weava_keycloak
+    #     restart: always
+    #     environment:
+    #         # Thông tin admin Keycloak (đọc từ .env)
+    #         KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+    #         KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
 
-            # Cấu hình kết nối đến service 'db'
-            KC_DB: postgres
-            # 'db' là tên service postgres ở trên
-            # 5432 là cổng NỘI BỘ của container 'db'
-            KC_DB_URL: jdbc:postgresql://db:5432/${KEYCLOAK_DB_NAME}
-            KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
-            KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    #         # Cấu hình kết nối đến service 'db'
+    #         KC_DB: postgres
+    #         # 'db' là tên service postgres ở trên
+    #         # 5432 là cổng NỘI BỘ của container 'db'
+    #         KC_DB_URL: jdbc:postgresql://db:5432/${KEYCLOAK_DB_NAME}
+    #         KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
+    #         KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
 
-            # Cấu hình để chạy dev
-            KC_HTTP_ENABLED: 'true'
-            KC_HOSTNAME: localhost
+    #         # Cấu hình để chạy dev
+    #         KC_HTTP_ENABLED: 'true'
+    #         KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+    #     ports:
+    #         # Ánh xạ cổng Keycloak (đọc từ .env)
+    #         - '${KEYCLOAK_PORT}:8080'
 
-        ports:
-            # Ánh xạ cổng Keycloak (đọc từ .env)
-            - '${KEYCLOAK_PORT}:8080'
+    #     networks:
+    #         - weava-network
 
-        networks:
-            - weava-network
+    #     command: start-dev # Chạy ở chế độ development
 
-        command: start-dev # Chạy ở chế độ development
-
-        # Keycloak chỉ khởi động KHI 'db' đã 'healthy'
-        depends_on:
-            db:
-                condition: service_healthy
+    #     # Keycloak chỉ khởi động KHI 'db' đã 'healthy'
+    #     depends_on:
+    #         db:
+    #             condition: service_healthy
 
 # THÊM MỚI: Định nghĩa network chung
 networks:
